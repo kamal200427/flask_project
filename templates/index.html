@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="POST">
+        <script>
+document.getElementById('layoutForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const roomCount = parseInt(document.getElementById('rooms').value);
+  const diningCount = parseInt(document.getElementById('dining').value);
+  const washroomCount = parseInt(document.getElementById('washrooms').value);
+
+  const canvas = document.getElementById('canvas');
+  canvas.innerHTML = '';
+
+  const boxWidth = 120;
+  const boxHeight = 80;
+  const gap = 40;
+  const startX = 50;
+  const centerY = 150;
+
+  let x = startX;
+  let lastCenter = null;
+
+  function drawRoom(label) {
+    // Rectangle
+    canvas.innerHTML += `
+      <rect class="room" x="${x}" y="${centerY}" width="${boxWidth}" height="${boxHeight}" />
+      <text class="label" x="${x + boxWidth / 2}" y="${centerY + boxHeight / 2 + 5}">${label}</text>
+    `;
+
+    // Draw connector from previous room
+    if (lastCenter !== null) {
+      const currentCenter = x;
+      canvas.innerHTML += `
+        <line class="connector" x1="${lastCenter + boxWidth}" y1="${centerY + boxHeight / 2}"
+              x2="${currentCenter}" y2="${centerY + boxHeight / 2}" />
+      `;
+    }
+
+    lastCenter = x;
+    x += boxWidth + gap;
+  }
+
+  // Draw all rooms
+  for (let i = 0; i < roomCount; i++) drawRoom("Room " + (i + 1));
+  for (let i = 0; i < diningCount; i++) drawRoom("Dining " + (i + 1));
+  for (let i = 0; i < washroomCount; i++) drawRoom("Washroom " + (i + 1));
+});
+</script>
+    </form>
+ </body>
+</html>
