@@ -1,6 +1,0 @@
-f=open("file.txt")
-lines=f.readlines()
-print(lines)
-print(type(lines))
-line=f.readline()
-print(line)
